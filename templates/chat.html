@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <title>Document</title>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+        }
+    
+        .chat-container {
+          max-width: 500px;
+          margin: 50px auto;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+        }
+    
+        .chat-box {
+          padding: 20px;
+          overflow-y: scroll;
+          max-height: 300px;
+        }
+    
+        .message {
+          margin-bottom: 10px;
+          padding: 10px;
+          border-radius: 5px;
+          max-width: 70%;
+        }
+    
+        .received {
+          background-color: #f2f2f2;
+          align-self: flex-start;
+        }
+    
+        .sent {
+          background-color: #007bff;
+          color: #fff;
+          align-self: flex-end;
+        }
+    
+        .input-box {
+          display: flex;
+          padding: 10px;
+        }
+    
+        .input-box input {
+          flex: 1;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          margin-right: 10px;
+        }
+    
+        .input-box button {
+          padding: 10px 20px;
+          background-color: #007bff;
+          color: #fff;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+    
+        .input-box button:hover {
+          background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-box">
+          <div class="message received">
+            <p>Hello there! How can I help you?</p>
+          </div>
+          <div class="message sent" id="mensagem">
+            <p>Hi! I'm just looking around, thanks.</p>
+          </div>
+        </div>
+        <div class="input-box">
+            <select name="usuario" id="usuario" onchange="mostraMensagem">
+                <option value="telefone">Nome</option>
+            </select>
+          <input type="text" placeholder="Type your message..." id="mensagem2">
+          <button onclick="enviaMensagem()">Enviar</button>
+        </div>
+    </div>
+
+        
+    <script type="text/javascript">
+        function mostrar_usuarios(){
+
+            // requisição via ajax
+            $.ajax({
+                url:"/get/usuarios",
+                type:"GET",
+                success: function(contatos){
+                    for (let i=0; i<contatos.length; i++){
+                        let tag = '<option value="'+contatos[i]['telefone']+'">'+contatos[i]['nome']+'</option>'
+                        $("#usuario").append(tag)
+                    }
+                }
+            })
+        }
+
+        function mostraMensagem(){
+            $.ajax({
+                url:"/get/mensagens/" +$("#usuario").val(),
+                type:"GET",
+                success: function(mensagens){
+
+                    for(let i = 0; i < mensagens.length; i++){
+                        tag = "<p>" + mensagens[i]["mensagem"] + "</p>"
+
+                        $("#mensagem").empty()
+
+                        $("#mensagem").append(tag)
+                    }
+                }
+            })
+        }
+
+            //função para 
+    function enviaMensagem(){
+
+        var dados = {
+            mensagem: $("#mensagem2").val(),
+            usuario: $("#usuario").val()
+        }
+        //o $ é utilizado para especificar que é jquery 
+        // get = pega os dados
+        // post = envia dados
+        $.ajax({
+            url:"/post/enviamensagem",
+            type:"POST",
+            data: JSON.stringify(dados),
+            contentType: "application/json",
+            success: mostraMensagem(),
+            error: function(){
+                alert("ERRO AO ENVIAR A MENSAGEM")
+            }
+        })
+      }
+
+        setInterval(mostraMensagem, 5000);
+        
+        $(document).ready(mostrar_usuarios())
+    </script>
+</body>
+</html>

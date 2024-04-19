@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/static/style.css">
+<title>Cadastro</title>
+<style>
+body {
+  background-color: #e0e8f5;
+  display: inline-block;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin-top: 15%;
+  margin-left: 45%;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  background-color: #f0f5fa;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center;
+}
+
+h1 {
+  color: #2b5b84;
+  margin-bottom: 20px;
+  margin-top: 0;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #2b5b84;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+button[type="submit"] {
+  background-color: #2b5b84;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+button[type="submit"]:hover {
+  background-color: #1e415e;
+}
+</style>
+</head>
+
+<body>
+
+    <h1>Cadastro</h1>
+    <form action="/" method="post">
+      <label for="nome">Nome:</label>
+      <input type="text" name="nome" id="nome" required>
+      <br>
+      <label for="telefone">Telefone:</label>
+      <input type="tel" name="telefone" id="telefone" required>
+      <br>
+      <label for="senha">Senha:</label>
+      <input type="password" name="senha" id="senha" required>
+      <br>
+      <button type="submit" action="/login">Cadastrar</button>
+    </form>
+
+</body>
+</html>
